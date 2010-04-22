@@ -1,38 +1,40 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8" />
-  <title>flashcard app</title>
-  <link rel="stylesheet" href="main.css"/>
-  <script type="text/javascript" src="http://www.google.com/jsapi?key=ABQIAAAAWSl8CF93UpLtkN5nscK1-hT2yXp_ZAY8_ufC3CFXhHIE1NvwkxRMzWsKedi793AH9S98s_llHstPcA"></script>
-  <script>google.load("jquery", "1.4.2");</script>
-  <script type="text/javascript" src="flashcard.js"></script>
-</head>
 
-<body>
-  <div id="card">
-    <div id="characters">
-      <%= @flashcard.characters.force_encoding('ASCII-8BIT') %>
-    </div>
-    <div id="answers">
-      <div id="pinyin">
-        <%= @flashcard.pinyin.force_encoding('ASCII-8BIT') %>
+  <% unless @flashcard.nil? %>
+    <div id="card" data-id="<%= @flashcard.id %>">
+      <div id="characters">
+        <%= @flashcard.characters.force_encoding('ASCII-8BIT') %>
       </div>
-      <div id="english">
-        <%= @flashcard.english %>
+      <div id="answers">
+        <div id="pinyin">
+          <%= @flashcard.pinyin.force_encoding('ASCII-8BIT') %>
+        </div>
+        <div id="english">
+          <%= @flashcard.english.force_encoding('ASCII-8BIT') %>
+        </div>
+      </div>
+      <div id="sidebar">
+        <div id="know"></div>
+        <div id="dontKnow"></div>
       </div>
     </div>
-    <div id="sidebar">
-      <div id="know"></div>
-      <div id="dontKnow"></div>
+  <% else %>
+    <div id="card">
+      <form action="reset" data-load="body">
+        <div style="position:relative; top:40%;">
+          No flashcards found!<br/>
+          <input type="submit" value="Reset answers"/>
+        </div>
+      </form>
     </div>
-  </div>
+
+  <% end %>
+
   <br/><br/>
   <div>&nbsp;
     <a id="addLink" href="" data-show="options">add characters</a>
   </div>
   <div id="options">
-    <form method="POST" id="add">
+    <form action="/" method="POST" id="add">
       <a href="" data-hide="options" data-show="addLink">i'm done adding</a>
       <input type="text" name="characters" placeholder="中文子"/>
       <input type="text" name="pinyin" placeholder="pinyin"/>
@@ -40,9 +42,15 @@
       <input type="submit" value="add"/>
     </form>
     <div id="categoryLoad">
-      <%= erb :categories %>
+      <%= erb :categories, :layout => false %>
     </div>
   </div>
-</body>
-</html>
-
+  <script>
+    $(document).ready(function(){
+      initFadeLinks();
+      initFormSubmits();
+      initCategories();
+      initKnow();
+      initDontKnow();
+    });
+  </script>

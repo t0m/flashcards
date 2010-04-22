@@ -5,13 +5,13 @@ html, body {
   font-family:sans-serif;
   color:white;
 }
-form {
+#add, #categories {
   position:relative;
   margin: 0px auto;
   width:250px;
   text-align:center;
 }
-form input[type=text] {
+#add input[type=text], #categories input[type=text] {
   width:97%;
   font-size:1.4em;
   margin-bottom:3px;
@@ -21,7 +21,7 @@ form input[type=text] {
   border-radius:5px;
   -moz-border-radius:5px;
 }
-form input[type=submit] {
+#add input[type=submit] {
   padding:4px;
 }
 a {

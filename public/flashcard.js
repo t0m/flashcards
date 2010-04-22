@@ -1,17 +1,5 @@
-//add active hidden inputs from categories to character add on submit
 //remove categories
-//show only characters from category list
-//add character to category - tough?
 //pinyin extended chars buttons
-
-$(document).ready(function(){
-  initFadeLinks();
-  initFormSubmits();
-  initCategories();
-  initKnow();
-  initDontKnow();
-});
-
 function initFadeLinks() {
   $('a[data-show]').click(function(e){
     if ($(this).attr('data-hide'))
@@ -26,13 +14,14 @@ function initFadeLinks() {
 
 function initFormSubmits(){
   $('#add').live('submit', function(e){
-    $('#categoryLoad div.active').each(function(){                 //not sure about using text() here
+    $('#categoryLoad div.active').each(function(){                       //should use id here
       $('#add').append('<input type="hidden" name="categories[]" value="' + $(this).text() + '"/>');
     });
     e.preventDefault();
   });
   $('form').live('submit', function(e){
     var form = this;
+    loadMask(form);
     $.post(
       $(this).attr('action'),
       $(this).serializeArray(),
@@ -40,6 +29,7 @@ function initFormSubmits(){
         loadMask(form);
         if ($(form).attr('data-load'))
           $('#' + $(form).attr('data-load')).html(data);
+        $(form).children('input[type=text]').val('').first().focus();
       }
     );
     e.preventDefault();
@@ -50,7 +40,6 @@ function initCategories() {
   $('#addCategory').live('click', function(e){
     var input = $('<input type="text" name="name"/>').insertBefore(this);
     input.blur(function(){
-      loadMask(input.parent());
       input.parent().submit();
     });
     e.preventDefault();
@@ -63,7 +52,9 @@ function initCategories() {
 var ajaxData = null;
 function initKnow() {
   $('#know').click(function(e){
-    $.getJSON('/', function(data){ ajaxData = data; });
+    $.get('/correct/' + $('#card').attr('data-id'),
+      serializeCategories(), 
+      function(data){ ajaxData = data; });
     $('#characters').hide();
     $('#pinyin, #english').css('position', 'relative').show();
     $('#answers').show().fadeOut(1000, loadCallback);
@@ -81,7 +72,9 @@ function initDontKnow() {
       $('#pinyin').fadeOut('fast');
       $('#english').fadeIn('fast');
     } else {
-      $.getJSON('/', function(data){ ajaxData = data; loadCallback(); });
+      $.get('/', 
+        serializeCategories(), 
+        function(data){ ajaxData = data; loadCallback(); });
       $('#english').hide();
     }
     e.preventDefault();
@@ -91,10 +84,14 @@ function initDontKnow() {
 //have to make sure the ajax request has returned before showing the next card
 function loadCallback() {
   if (ajaxData){
-    $('#characters').text(ajaxData.characters).show();
-    $('#pinyin').text(ajaxData.pinyin).css('position', 'absolute').hide();
-    $('#english').text(ajaxData.english).css('position', 'absolute').hide();
-    ajaxData = null;
+    if (typeof ajaxData == 'string') {
+      $('#body').html(ajaxData);
+    } else {
+      $('#characters').text(ajaxData.characters).show();
+      $('#pinyin').text(ajaxData.pinyin).css('position', 'absolute').hide();
+      $('#english').text(ajaxData.english).css('position', 'absolute').hide();
+      ajaxData = null;
+    }
   } else {
     alert('data not loaded yet!');
   }
@@ -105,4 +102,12 @@ function loadMask(elem) {
     $(elem).find('.loadMask').remove();
   else
     $(elem).append('<div class="loadMask"></div>');
+}
+
+function serializeCategories(){
+  var serialized = [];
+  $('#categoryLoad .active').each(function(){
+    serialized.push($(this).text());
+  });
+  return $.param({categories : serialized});
 }
