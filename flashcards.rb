@@ -7,7 +7,7 @@ require 'dm-ar-finders'
 require 'erb'
 
 DataMapper::Logger.new($stdout, :debug)
-DataMapper.setup(:default, 'mysql://localhost/flashcard?user=root&password=tom')
+DataMapper.setup(:default, ENV['DATABASE_URL'] || 'mysql://localhost/flashcard?user=root&password=root')
 
 class Flashcard
   include DataMapper::Resource
