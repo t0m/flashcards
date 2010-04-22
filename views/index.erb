@@ -2,14 +2,14 @@
   <% unless @flashcard.nil? %>
     <div id="card" data-id="<%= @flashcard.id %>">
       <div id="characters">
-        <%= @flashcard.characters.force_encoding('ASCII-8BIT') %>
+        <%= @flashcard.characters %>
       </div>
       <div id="answers">
         <div id="pinyin">
-          <%= @flashcard.pinyin.force_encoding('ASCII-8BIT') %>
+          <%= @flashcard.pinyin %>
         </div>
         <div id="english">
-          <%= @flashcard.english.force_encoding('ASCII-8BIT') %>
+          <%= @flashcard.english %>
         </div>
       </div>
       <div id="sidebar">
