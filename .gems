@@ -1,1 +1,4 @@
-dm-ar-finders
+dm-core       --version '>=0.10.2'
+datamapper    --version '>=0.10.2'
+dm-ar-finders --version '>=0.10.2'
+data_objects  --version '>=0.10.1'
