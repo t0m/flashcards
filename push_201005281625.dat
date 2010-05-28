@@ -1,0 +1,1 @@
+{"klass":"Taps::Push","database_url":"mysql://root:root@localhost/flashcard","remote_url":"http://heroku:osui59a24am79x@taps3.heroku.com","session_uri":"/sessions/2736750971","stream_state":{},"completed_tables":["categories","category_flashcards"],"table_filter":null,"local_tables_info":{"categories":2,"category_flashcards":0,"flashcards":1}}
