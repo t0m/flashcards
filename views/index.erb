@@ -2,11 +2,11 @@
   <% unless @flashcard.nil? %>
     <div id="card" data-id="<%= @flashcard.id %>">
       <div id="characters">
-        <%= @flashcard.characters %>
+        <%= @flashcard.characters.force_encoding('ASCII-8BIT') %>
       </div>
       <div id="answers">
         <div id="pinyin">
-          <%= @flashcard.pinyin %>
+          <%= @flashcard.pinyin.force_encoding('ASCII-8BIT') %>
         </div>
         <div id="english">
           <%= @flashcard.english %>
@@ -54,3 +54,4 @@
       initDontKnow();
     });
   </script>
+

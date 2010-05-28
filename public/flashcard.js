@@ -53,11 +53,11 @@ var ajaxData = null;
 function initKnow() {
   $('#know').click(function(e){
     $.get('/correct/' + $('#card').attr('data-id'),
-      serializeCategories(), 
+      serializeCategories(),
       function(data){ ajaxData = data; });
     $('#characters').hide();
     $('#pinyin, #english').css('position', 'relative').show();
-    $('#answers').show().fadeOut(1000, loadCallback);
+    $('#answers').show().fadeOut(300, loadCallback);
     e.preventDefault();
   });
 }
@@ -72,8 +72,8 @@ function initDontKnow() {
       $('#pinyin').fadeOut('fast');
       $('#english').fadeIn('fast');
     } else {
-      $.get('/', 
-        serializeCategories(), 
+      $.get('/',
+        serializeCategories(),
         function(data){ ajaxData = data; loadCallback(); });
       $('#english').hide();
     }
@@ -111,3 +111,4 @@ function serializeCategories(){
   });
   return $.param({categories : serialized});
 }
+

@@ -32,7 +32,7 @@ end
 
 class Category
   include DataMapper::Resource
-  
+
   property :id,   Serial
   property :name, String
 
@@ -50,9 +50,9 @@ get "/correct/:id" do
 
 
   if request.xhr? && !@flashcard.nil?
-    content_type 'text/json' 
-    @flashcard.to_json 
-  else  
+    content_type 'text/json'
+    @flashcard.to_json
+  else
     erb :index
   end
 end
@@ -61,9 +61,9 @@ get "/" do
   get_flashcard(params)
 
   if request.xhr? && !@flashcard.nil?
-    content_type 'text/json' 
-    @flashcard.to_json 
-  else  
+    content_type 'text/json'
+    @flashcard.to_json
+  else
     erb :index
   end
 end
@@ -105,3 +105,4 @@ def get_flashcard(params)
 
   @categories = Category.all
 end
+
